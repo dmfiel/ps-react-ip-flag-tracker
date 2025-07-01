@@ -15,8 +15,8 @@ export function IPTracker() {
   const countryData = useCountry(country);
   const size = useWindowSize();
   const [mapSize, setMapSize] = useState<WinSize>({
-    width: 0,
-    height: 0
+    width: Math.floor(Math.min(1440, window.innerWidth)),
+    height: Math.floor(window.innerHeight)
   });
 
   useEffect(() => {

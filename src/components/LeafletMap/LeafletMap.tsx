@@ -19,15 +19,16 @@ export function LeafletMap({
 }) {
   // console.log(width, height);
   console.log(lat, lng);
-  if (!lat) lat = 51.505;
-  if (!lng) lng = -0.09;
-  if (!width) width = 1000;
-  if (!height) height = 800;
+  // if (!lat) lat = 51.505;
+  // if (!lng) lng = -0.09;
+  // if (!width) width = window.innerWidth || 1000;
+  // if (!height) height = window.innerHeight || 800;
   // console.log(width, height);
 
   const mapRef = useRef<any>({});
   const [position, setPosition] = useState<LatLngTuple>([lat, lng]);
   const mapElement = document.getElementById(MAP_CONTAINER_ID);
+  fixHeight();
 
   const myIcon = icon({
     iconUrl: 'http://fiel.us/ip-tracker/images/icon-location.svg',
@@ -40,8 +41,10 @@ export function LeafletMap({
   useEffect(() => fixPosition(), [lat, lng]);
   function fixPosition() {
     console.log('fixPos', lat, lng);
-    setPosition([lat, lng]);
-    mapRef?.current?.setView([lat, lng]);
+    if (lat && lng) {
+      setPosition([lat, lng]);
+      if (mapRef && mapRef.current) mapRef.current.setView([lat, lng]);
+    }
   }
 
   useEffect(() => fixHeight(), [width, height]);
@@ -49,6 +52,10 @@ export function LeafletMap({
   function fixHeight() {
     console.log('fix height', height);
     if (mapElement) mapElement.style.height = `${height}px`;
+    try {
+      if (mapRef && mapRef.current) mapRef.current.setView([lat, lng]);
+      if (mapRef && mapRef.current) mapRef.current.invalidateSize(true);
+    } catch (err) {}
   }
 
   return (
@@ -58,6 +65,7 @@ export function LeafletMap({
       center={position}
       zoom={12}
       scrollWheelZoom={false}
+      whenReady={fixHeight}
       className={`h-[${height}px] w-[${width}px] z-1`}
     >
       <TileLayer

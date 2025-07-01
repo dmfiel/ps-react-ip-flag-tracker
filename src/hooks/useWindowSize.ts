@@ -7,13 +7,16 @@ export type WinSize = {
 
 export function useWindowSize(): WinSize {
   const [winSize, setWinSize] = useState<WinSize>({
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: Math.floor(window.innerWidth),
+    height: Math.floor(window.innerHeight)
   });
 
   useEffect(() => {
     function handleResize() {
-      setWinSize({ width: window.innerWidth, height: window.innerHeight });
+      setWinSize({
+        width: Math.floor(window.innerWidth),
+        height: Math.floor(window.innerHeight)
+      });
     }
     window.addEventListener('resize', handleResize);
     handleResize();
