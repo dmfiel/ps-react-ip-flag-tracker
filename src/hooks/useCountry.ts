@@ -1,6 +1,7 @@
 // Pull data based on IP address or domain nmae from the Geo Location API at geo.ipify.org
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useFetch } from './useFetch';
+import { ErrorContext } from '../context/ErrorContext';
 
 // Pull country and flag info from the RESTCountries API
 
@@ -14,6 +15,8 @@ export type CountryData = {
 };
 
 export function useCountry(countryCode: string = 'US'): CountryData {
+  const { setError } = useContext(ErrorContext);
+
   countryCode = countryCode.trim();
 
   const { data, error, loading } = useFetch(
@@ -29,7 +32,7 @@ export function useCountry(countryCode: string = 'US'): CountryData {
   useEffect(() => {
     if (error) {
       console.error('Fetch error during getCountry:', error);
-      // showError('Unable to find country code: ' + countryCode);
+      setError('Unable to find country code: ' + countryCode);
     }
   }, [error]);
   useEffect(() => {
@@ -40,6 +43,7 @@ export function useCountry(countryCode: string = 'US'): CountryData {
         flagAlt: data.flags.alt,
         countryName: data.name.common
       });
+      setError('');
     }
   }, [data]);
 

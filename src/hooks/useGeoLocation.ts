@@ -1,7 +1,8 @@
 // Pull data based on IP address or domain nmae from the Geo Location API at geo.ipify.org
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { API_KEY_IP_GEOLOCATION } from '../secrets';
 import { useFetch } from './useFetch';
+import { ErrorContext } from '../context/ErrorContext';
 // import { useLocalThenFetch } from './useLocalThenFetch';
 
 const BASE_URL = 'https://geo.ipify.org/api/v2';
@@ -20,6 +21,7 @@ export type GeoLoc = {
 };
 
 export function useGeoLocation(ipAddr: string): GeoLoc {
+  const { setError } = useContext(ErrorContext);
   const { data, error, loading } = useFetch(getGeoURL(ipAddr));
   const [geoLoc, setGeoLoc] = useState<GeoLoc>({
     ipAddr: '',
@@ -37,7 +39,7 @@ export function useGeoLocation(ipAddr: string): GeoLoc {
   useEffect(() => {
     if (error) {
       console.error('Fetch error during getGeolocation:', error);
-      //   showError(`Unable to find that IP address or domain.`);
+      setError(`Unable to find that IP address or domain.`);
     }
   }, [error]);
   useEffect(() => {

@@ -1,5 +1,5 @@
-import { icon, map, type LatLngTuple } from 'leaflet';
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import { icon, type LatLngTuple } from 'leaflet';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef, useState } from 'react';
 const MAP_CONTAINER_ID = 'map-container';
@@ -11,8 +11,8 @@ export function LeafletMap({
   width,
   height
 }: {
-  lat?: number | undefined;
-  lng?: number | undefined;
+  lat: number;
+  lng: number;
   message?: string | undefined;
   width: number;
   height: number;

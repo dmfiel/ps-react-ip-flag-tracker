@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { ErrorContext } from '../../context/ErrorContext';
 
 export function SearchBar({
   setIpaddr
 }: {
   setIpaddr: (_ipaddr: string) => void;
 }) {
+  const { setError } = useContext(ErrorContext);
   const [searchText, setSearchText] = useState('');
 
   function keyHandler(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -23,6 +25,7 @@ export function SearchBar({
       | React.KeyboardEvent<HTMLInputElement>
   ) {
     e.preventDefault();
+    setError('');
     setIpaddr(searchText);
   }
 
