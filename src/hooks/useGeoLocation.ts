@@ -35,7 +35,7 @@ export function useGeoLocation(ipAddr: string): GeoLoc {
     error: null
   });
 
-  useEffect(() => console.log('Loading:', loading), [loading]);
+  // useEffect(() => console.log('Loading:', loading), [loading]);
   useEffect(() => {
     if (error) {
       console.error('Fetch error during getGeolocation:', error);
@@ -43,13 +43,7 @@ export function useGeoLocation(ipAddr: string): GeoLoc {
     }
   }, [error]);
   useEffect(() => {
-    // if (ipGeo.validateIPGeo()) {
-    //   if (ipAddr) localStorage.setItem(ipAddr, JSON.stringify(ipGeo));
-    //   else localStorage.setItem('local', JSON.stringify(ipGeo));
-
-    //   console.log(`IPGeolocation pulled from API: ${ipAddr}`);
-    if (data) {
-      console.log('geo loc data ', data);
+    if (data && validateIPGeo(data))
       setGeoLoc({
         ipAddr: data.ip,
         location: `${data.location.city}, ${data.location.region} ${data.location.postalCode}`,
@@ -61,8 +55,18 @@ export function useGeoLocation(ipAddr: string): GeoLoc {
         loading: loading,
         error: error
       });
-    }
   }, [data]);
+
+  function validateIPGeo(data: any): boolean {
+    if (!data) setError('No geolocation data returned.');
+    if (!data.location.city) setError(`Geolocation error: No city found`);
+    if (!data.ip) setError(`Geolocation error: No ip address found`);
+    if (!data.location.timezone)
+      setError(`Geolocation error: No timezone found`);
+    // lots of the entries don't have an ISP entry, so don't validate this field
+    // if (!this.isp) throw new Error(`Geolocation error: No ISP found`);
+    return true;
+  }
 
   return geoLoc as GeoLoc;
 }

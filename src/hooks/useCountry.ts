@@ -28,7 +28,7 @@ export function useCountry(countryCode: string = 'US'): CountryData {
     countryName: ''
   });
 
-  useEffect(() => console.log('Loading:', loading), [loading]);
+  // useEffect(() => console.log('Loading:', loading), [loading]);
   useEffect(() => {
     if (error) {
       console.error('Fetch error during getCountry:', error);
@@ -37,7 +37,6 @@ export function useCountry(countryCode: string = 'US'): CountryData {
   }, [error]);
   useEffect(() => {
     if (data) {
-      console.log('country data ', data);
       setCountryData({
         flagImg: data.flags.svg,
         flagAlt: data.flags.alt,

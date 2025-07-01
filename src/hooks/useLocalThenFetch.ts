@@ -19,7 +19,6 @@ export function useLocalThenFetch(
   const fetchReturn = useFetch(fetchURL, options, uploadData);
 
   useEffect(() => {
-    console.log('foundLocal', foundLocal);
     if (foundLocal === true) {
       setLoading(false);
       setData(localData);
@@ -29,8 +28,6 @@ export function useLocalThenFetch(
   }, [foundLocal]);
 
   useEffect(() => {
-    console.log('fetchReturn changed', fetchReturn);
-    console.log('foundLocal', foundLocal);
     if (!url) return;
     if (foundLocal !== false) return;
     setLoading(fetchReturn.loading);

@@ -12,7 +12,7 @@
 }
 
 body {
-  background-image: url('./images/pattern-bg-desktop.png');
+  background-image: url('./assets/pattern-bg-desktop.png');
   background-repeat: no-repeat;
   background-position: top center;
 }
