@@ -1,5 +1,48 @@
-@import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
-body * {
-  @apply transition-colors duration-200;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import 'tailwindcss';
+@theme {
+  --color-white: white;
+  --color-black: black;
+  --color-red: red;
+  --color-very-light-gray: rgb(235, 235, 235);
+  --color-light-gray: lightgray;
+  --color-very-dark-gray: hsl(0, 0%, 17%);
+  --color-dark-gray: hsl(0, 0%, 59%);
+  --font-rubik: 'Rubik', sans-serif;
+}
+
+body {
+  background-image: url('./images/pattern-bg-desktop.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+#main {
+  /* width: calc(100% - 40px); */
+}
+
+#error {
+  translate: 0 -30px;
+}
+
+@media screen and (min-width: 1024px) {
+  #search {
+    translate: -5px 0px;
+  }
+
+  #main {
+    /* width: calc(100% - 100px); */
+  }
+
+  #error {
+    translate: 0 -35px;
+  }
+
+  .item {
+    border-right: 1px solid lightgrey;
+    overflow-wrap: anywhere;
+  }
+  .item:last-child {
+    border-right: none;
+  }
 }

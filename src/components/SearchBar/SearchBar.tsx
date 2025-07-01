@@ -1,56 +1,58 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-export function SearchBar() {
-  const navigate = useNavigate();
+export function SearchBar({
+  setIpaddr
+}: {
+  setIpaddr: (_ipaddr: string) => void;
+}) {
   const [searchText, setSearchText] = useState('');
-
-  function changeHandler(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearchText(event.target.value);
-  }
 
   function keyHandler(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
-      openSearchPage(event);
+      searchForIPAddr(event);
     }
     if (event.key === 'Escape') {
       setSearchText('');
     }
   }
 
-  function openSearchPage(
+  function searchForIPAddr(
     e:
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
       | React.FormEvent<HTMLFormElement>
       | React.KeyboardEvent<HTMLInputElement>
   ) {
     e.preventDefault();
-    navigate(`/search/${searchText}`); // Navigate to /dashboard
+    setIpaddr(searchText);
   }
 
   return (
     <form
-      onSubmit={e => openSearchPage(e)}
+      onSubmit={e => searchForIPAddr(e)}
       id="search-form"
-      className="flex gap-5 w-full "
+      className="w-full px-5 box-border flex flex-nowrap mb-[135px] items-start"
     >
+      <label className="hidden" htmlFor="ipaddr">
+        IP Address or Domain
+      </label>
       <input
-        type="text"
+        autoFocus={true}
         value={searchText}
-        onChange={changeHandler}
+        onChange={e => setSearchText(e.target.value)}
         onKeyDown={keyHandler}
-        placeholder="Search"
-        className="border rounded-md py-1 px-2 w-full min-w-24 dark:bg-gray-800 dark:text-gray-300"
+        type="text"
+        id="ipaddr"
+        placeholder="Search for any IP address or domain"
+        className="w-full lg:w-[400px] box-border bg-white hover:bg-very-light-gray text-lg box-border text-black p-[15px] border border-dark-gray rounded-l-2xl"
       />
       <button
-        title="Search for recipes"
         id="search"
-        type="submit"
-        className="bg-blue-300 hover:bg-blue-400 focus:bg-blue-400 dark:bg-blue-700 dark:hover:bg-blue-600 dark:focus:bg-blue-600 px-3 rounded-md"
-        onClick={e => openSearchPage(e)}
+        className="font-rubik bg-black hover:bg-very-dark-gray px-5 h-[60px] rounded-r-2xl text-lg font-bold"
       >
-        <MagnifyingGlassIcon className="size-6 text-blue-600 dark:text-blue-200" />
+        <img
+          src="http://fiel.us/ip-tracker/images/icon-arrow.svg"
+          alt="Submit"
+        />
       </button>
     </form>
   );
