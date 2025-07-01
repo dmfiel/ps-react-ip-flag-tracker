@@ -35,7 +35,7 @@ export function useGeoLocation(ipAddr: string): GeoLoc {
     error: null
   });
 
-  // useEffect(() => console.log('Loading:', loading), [loading]);
+  useEffect(() => console.log('Loading:', loading), [loading]);
   useEffect(() => {
     if (error) {
       console.error('Fetch error during getGeolocation:', error);
