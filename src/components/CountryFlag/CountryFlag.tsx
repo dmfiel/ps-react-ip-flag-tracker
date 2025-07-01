@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import type { CountryData } from '../../hooks/useCountry';
+import { ErrorContext } from '../../context/ErrorContext';
 
 export function CountryFlag({
   countryData,
@@ -7,7 +9,8 @@ export function CountryFlag({
   countryData: CountryData;
   big: boolean;
 }) {
-  if (!countryData || !countryData.flagImg) return;
+  const { errorMessage } = useContext(ErrorContext);
+  if (!countryData || !countryData.flagImg || errorMessage) return;
   if (big)
     return (
       <section className="flag flag-big hidden lg:flex mt-9 mb-5 mx-9  flex-col gap-2.5 align-center text-center">
